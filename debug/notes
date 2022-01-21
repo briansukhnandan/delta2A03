@@ -3,6 +3,12 @@ General notes about the 6502 -
     - The order in which addresses are split across individual bytes
     in memory is Little Endian.
 
+    - The memory map ranges from 0x0000 -> 0xFFFF.
+
+    - RAM is accessible between 0x0000 -> 0x2000.
+
+    - Stack ptr ranges from 0x0100 -> 0x1FF.
+
 Flags -
 
     There is an internal 8-bit register, variously called the

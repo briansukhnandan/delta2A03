@@ -15,7 +15,7 @@ struct CPU {
     p: u8,
 
     // Stack ptr which is hardcoded between 0x100 -> 0x1ff.
-    sp: u16,
+    sp: u8,
 
     // 16 bit program counter.
     pc: u16,
@@ -38,7 +38,7 @@ impl Default for CPU {
 
             p: 0b0010_0100, // Explicitly declare flags as binary for readability.
             
-            sp: 0x100u16,
+            sp: 0x0u8,
             pc: 0x0u16,
 
             cycle_count: 0,
