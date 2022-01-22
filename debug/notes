@@ -35,7 +35,7 @@ Flags -
     Bit 0: C flag (Carry flag) - Set to 1 whenever accumulator rolls over from FF -> 00. Also set by various rotation and comparison instructions.
 
 
-OPCODE NOTES - 
+Opcode notes - 
 
     Most instructions that explicitly reference memory have bit pattern
     aaabbbcc. aaa and cc determine the opcode, and bbb determines addressing mode.
@@ -44,3 +44,43 @@ OPCODE NOTES -
     0x25 -> 0b_001_001_01
     (aaa = 001) + (cc = 01) = AND opcode
     bbb = 001 Zero page addressing mode
+
+
+Addressing Modes -
+
+    Accumulator - Have the A register as the target.
+                  Ex: LSR A
+
+    # (Immediate) - These instructions have their data defined as the next byte
+                    after the opcode.
+                    Ex: ORA immediate (0xB2) - ORA # is our opcode, where 0xB2 is the next byte.
+                    This opcode will do a bitwise OR with A and 0xB2.
+
+    Implied - The data/destination is implied by the operation.
+              Ex: CLC - it's implied that this operation operates on the status (p) register.
+
+    Relative - This is only used for branch operations. The byte after the opcode is the branch
+               offset. If the branch is taken, the new addr will be the current PC + offset.
+               The offset is a signed byte, so it can jump +127, or -128.
+
+    Absolute - This addressing specifies the memory location explicitly in the next 2 bytes following
+               the opcode.
+               Ex: JMP 0x4032 in hex will be -> 4C 32 40 (Little-Endian).
+
+    Zero-Page - Only capable of addressing first 256 bytes of memory map. Basically Absolute
+                addressing but only for the first 256 bytes.
+                Ex: LDA 0x35 - Puts value from memory cell 0x35 into A (0x35 < 256).
+
+    Indirect - Only used by JMP instruction. This is a 3-byte instruction, 2nd and 3rd bytes
+               are an abs address. PC is then set to the address stored at that address.
+
+               Ex:
+                    Memory:
+                    1000 52 3a 04 d3 93 00 3f 93 84    
+
+                    Instruction:    
+                    JMP  ($1000)
+
+                    When this instruction is executed, the PC will be set to $3a52, 
+                    which is the address stored at address $1000.
+
