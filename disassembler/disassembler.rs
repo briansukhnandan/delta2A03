@@ -171,6 +171,73 @@ fn read_opcode(opcode: u8) {
     }
 }
 
+use std::io;
+use std::io::Read;
+use std::io::BufReader;
+use std::fs::File;
+use std::io::Write;
+
+fn disassemble(path: String) -> io::Result<()> {
+
+    // UNCOMMENT BELOW 4 LINES TO READ ROM DATA.
+    // let f = File::open(path)?;
+    // let mut reader = BufReader::new(f);
+    // let mut buffer = Vec::new();
+    // reader.read_to_end(&mut buffer)?;
+
+    // Testing with specific instructions.
+    let mut buffer = Vec::new();
+    buffer.push(0x09);
+    buffer.push(0x1A);
+    buffer.push(0x4E);
+
+    let mut opcode_idx = 0;
+    while opcode_idx < buffer.len() {
+        print!("{:#02x}: ", buffer[opcode_idx]);
+        io::stdout().flush().unwrap();
+
+        // First let's do immediate addressing modes.
+        // Simply take buffer[opcode+1], then increment i by 1.
+        // if buffer[opcode_idx] == 0x09 { // ORA immediate
+        //     println!("ORA {:#02x}", buffer[opcode_idx+1]);
+        //     opcode_idx = opcode_idx+2;
+        //     continue;
+        // }
+
+        // else {
+        //     println!("Not implemented yet...")
+        // }
+
+        match buffer[opcode_idx] {
+            0x09 => {
+                println!("ORA {:#02x}", buffer[opcode_idx+1]);
+                opcode_idx = opcode_idx+2;
+                continue;
+            }
+
+            _ => println!("Not implemented yet...")
+        }
+
+        opcode_idx = opcode_idx + 1;
+    }
+
+    // let mut vec_counter = 0;
+    // for mut opcode in 0..(buffer.len()) {  
+    //     println!("{:#02x}", buffer[opcode]);
+
+    //     // First let's do immediate addressing modes.
+    //     // Simply take buffer[opcode+1], then increment i by 1.
+    //     if buffer[opcode] == 0x09 { // ORA immediate
+    //         println!("ORA {:#02x}", buffer[opcode+1]);
+    //         opcode = opcode+2;
+    //     }
+
+    // }
+
+    Ok(())
+}
+
 fn main() {
-    read_opcode(0x81);
+    //read_opcode(0x81);
+    let _res = disassemble(String::from("/Users/brian/Documents/NES Test ROMs/instr_test_v5/01-basics.nes"));
 }

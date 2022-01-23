@@ -5,8 +5,10 @@ use std::fs::File;
 
 #[allow(non_snake_case)]
 
-// Pipe the output of this program to a file using bash.
-// i.e. (./ROM_dump_tool) > mem_dump.txt
+// Pipe the output of this program to a file using your shell.
+// i.e. 
+// $ rustc ROM_dump_tool.rs
+// $ (./ROM_dump_tool) > mem_dump.txt
 fn dump_ROM_hex(path: String) -> io::Result<()> {
 
     // We will simply open the file, create a buffer
@@ -24,7 +26,7 @@ fn dump_ROM_hex(path: String) -> io::Result<()> {
         counter = counter + 1;        
         print!("{:#02x} ", value);
 
-        if counter % 5 == 0 {
+        if counter % 10 == 0 {
             println!("");
         }
     }
