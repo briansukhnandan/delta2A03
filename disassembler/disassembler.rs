@@ -16,7 +16,7 @@ fn print_type_of<T>(_: &T) {
 
 // Pipe the output of this program to a file using your shell.
 // i.e. 
-// $ rustc ROM_dump_tool.rs
+// $ rustc disassembler.rs
 // $ (./disassembler) > disassembler_output.txt
 fn disassemble(_path: String) -> io::Result<()> {
 
