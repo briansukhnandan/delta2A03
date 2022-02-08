@@ -5,7 +5,7 @@
 fn read_opcode(opcode: u8) {
     match opcode {
         // 0x00 => println!("BRK impl"),
-        0x01 => println!("ORA (indr,X)"),
+        // 0x01 => println!("ORA (indr,X)"),
         // 0x05 => println!("ORA zpg"),
         // 0x06 => println!("ASL zpg"),
         // 0x08 => println!("PHP impl"),
@@ -15,16 +15,16 @@ fn read_opcode(opcode: u8) {
         // 0x0E => println!("ASL abs"),
 
         // 0x10 => println!("BPL rel"),
-        0x11 => println!("ORA (indr,Y)"),
-        0x15 => println!("ORA (zpg,X)"),
-        0x16 => println!("ASL (zpg,X)"),
+        // 0x11 => println!("ORA (indr,Y)"),
+        // 0x15 => println!("ORA (zpg,X)"),
+        // 0x16 => println!("ASL (zpg,X)"),
         // 0x18 => println!("CLC impl"),
         0x19 => println!("ORA (abs,Y)"),
         0x1D => println!("ORA (abs,X)"),
         0x1E => println!("ASL (abs,X)"),
 
         // 0x20 => println!("JSR abs"),
-        0x21 => println!("AND (indr,X)"),
+        // 0x21 => println!("AND (indr,X)"),
         // 0x24 => println!("BIT zpg"),
         // 0x25 => println!("AND zpg"),
         // 0x26 => println!("ROL zpg"),
@@ -36,16 +36,16 @@ fn read_opcode(opcode: u8) {
         // 0x2E => println!("ROL abs"),
 
         // 0x30 => println!("BMI rel"),
-        0x31 => println!("AND (indr,Y)"),
-        0x35 => println!("AND (zpg,X)"),
-        0x36 => println!("ROL (zpg,X)"),
+        // 0x31 => println!("AND (indr,Y)"),
+        // 0x35 => println!("AND (zpg,X)"),
+        // 0x36 => println!("ROL (zpg,X)"),
         // 0x38 => println!("SEC impl"),
         0x39 => println!("AND (abs,Y)"),
         0x3D => println!("AND (abs,X)"),
         0x3E => println!("ROL (abs,X)"),
 
         // 0x40 => println!("RTI impl"),
-        0x41 => println!("EOR (indr,X)"),
+        // 0x41 => println!("EOR (indr,X)"),
         // 0x45 => println!("EOR zpg"),
         // 0x46 => println!("LSR zpg"),
         // 0x48 => println!("PHA impl"),
@@ -56,16 +56,16 @@ fn read_opcode(opcode: u8) {
         // 0x4E => println!("LSR abs"),
 
         // 0x50 => println!("BVC rel"),
-        0x51 => println!("EOR (indr,Y)"),
-        0x55 => println!("EOR (zpg,X)"),
-        0x56 => println!("LSR (zpg,X)"),
+        // 0x51 => println!("EOR (indr,Y)"),
+        // 0x55 => println!("EOR (zpg,X)"),
+        // 0x56 => println!("LSR (zpg,X)"),
         // 0x58 => println!("CLI impl"),
         0x59 => println!("EOR (abs,Y)"),
         0x5D => println!("EOR (abs,X)"),
         0x5E => println!("LSR (abs,X)"),
 
         // 0x60 => println!("RTS impl"),
-        0x61 => println!("ADC (indr,X)"),
+        // 0x61 => println!("ADC (indr,X)"),
         // 0x65 => println!("ADC zpg"),
         // 0x66 => println!("ROR zpg"),
         // 0x68 => println!("PLA impl"),
@@ -76,15 +76,15 @@ fn read_opcode(opcode: u8) {
         // 0x6E => println!("ROR abs"),
 
         // 0x70 => println!("BVS rel"),
-        0x71 => println!("ADC (indr,Y)"),
-        0x75 => println!("ADC (zpg,X)"),
-        0x76 => println!("ROR (zpg,X)"),
+        // 0x71 => println!("ADC (indr,Y)"),
+        // 0x75 => println!("ADC (zpg,X)"),
+        // 0x76 => println!("ROR (zpg,X)"),
         // 0x78 => println!("SEI impl"),
         0x79 => println!("ADC (abs,Y)"),
         0x7D => println!("ADC (abs,X)"),
         0x7E => println!("ROR (abs,X)"),
 
-        0x81 => println!("STA (indr,X)"),
+        // 0x81 => println!("STA (indr,X)"),
         // 0x84 => println!("STY zpg"),
         // 0x85 => println!("STA zpg"),
         // 0x86 => println!("STX zpg"),
@@ -95,17 +95,17 @@ fn read_opcode(opcode: u8) {
         // 0x8E => println!("STX abs"),
 
         // 0x90 => println!("BCC rel"),
-        0x91 => println!("STA (indr,Y)"),
-        0x94 => println!("STY (zpg,X)"),
-        0x95 => println!("STA (zpg,X)"),
-        0x96 => println!("STX (zpg,Y)"),
+        // 0x91 => println!("STA (indr,Y)"),
+        // 0x94 => println!("STY (zpg,X)"),
+        // 0x95 => println!("STA (zpg,X)"),
+        // 0x96 => println!("STX (zpg,Y)"),
         // 0x98 => println!("TYA impl"),
         0x99 => println!("STA (abs,Y)"),
         // 0x9A => println!("TXS impl"),
         0x9D => println!("STA (abs,X)"),
 
         // 0xA0 => println!("LDY immediate"),
-        0xA1 => println!("LDA (indr,X)"),
+        // 0xA1 => println!("LDA (indr,X)"),
         // 0xA2 => println!("LDX immediate"),
         // 0xA4 => println!("LDY zpg"),
         // 0xA5 => println!("LDA zpg"),
@@ -118,10 +118,10 @@ fn read_opcode(opcode: u8) {
         // 0xAE => println!("LDX abs"),
 
         // 0xB0 => println!("BCS rel"),
-        0xB1 => println!("LDA (indr,Y)"),
-        0xB4 => println!("LDY (zpg,X)"),
-        0xB5 => println!("LDA (zpg,X)"),
-        0xB6 => println!("LDX (zpg,Y)"),
+        // 0xB1 => println!("LDA (indr,Y)"),
+        // 0xB4 => println!("LDY (zpg,X)"),
+        // 0xB5 => println!("LDA (zpg,X)"),
+        // 0xB6 => println!("LDX (zpg,Y)"),
         // 0xB8 => println!("CLV impl"),
         0xB9 => println!("LDA (abs,Y)"),
         // 0xBA => println!("TSX impl"),
@@ -130,7 +130,7 @@ fn read_opcode(opcode: u8) {
         0xBE => println!("LDX (abs,Y)"),
 
         // 0xC0 => println!("CPY immediate"),
-        0xC1 => println!("CMP (indr,X)"),
+        // 0xC1 => println!("CMP (indr,X)"),
         // 0xC4 => println!("CPY zpg"),
         // 0xC5 => println!("CMP zpg"),
         // 0xC6 => println!("DEC zpg"),
@@ -142,16 +142,16 @@ fn read_opcode(opcode: u8) {
         // 0xCE => println!("DEC abs"),
 
         // 0xD0 => println!("BNE rel"),
-        0xD1 => println!("CMP (indr,Y)"),
-        0xD5 => println!("CMP (zpg,X)"),
-        0xD6 => println!("DEC (zpg,X)"),
+        // 0xD1 => println!("CMP (indr,Y)"),
+        // 0xD5 => println!("CMP (zpg,X)"),
+        // 0xD6 => println!("DEC (zpg,X)"),
         // 0xD8 => println!("CLD impl"),
         0xD9 => println!("CMP (abs,Y)"),
         0xDD => println!("CMP (abs,X)"),
         0xDE => println!("DEC (abs,X)"),
 
         // 0xE0 => println!("CPX immediate"),
-        0xE1 => println!("SBC (indr,X)"),
+        // 0xE1 => println!("SBC (indr,X)"),
         // 0xE4 => println!("CPX zpg"),
         // 0xE5 => println!("SBC zpg"),
         // 0xE6 => println!("INC zpg"),
@@ -164,8 +164,8 @@ fn read_opcode(opcode: u8) {
 
         // 0xF0 => println!("BEQ rel"),
         0xF1 => println!("SBC (indr,Y)"),
-        0xF5 => println!("SBC (zpg,X)"),
-        0xF6 => println!("INC (zpg,X)"),
+        // 0xF5 => println!("SBC (zpg,X)"),
+        // 0xF6 => println!("INC (zpg,X)"),
         // 0xF8 => println!("SED impl"),
         0xF9 => println!("SBC (abs,Y)"),
         0xFD => println!("SBC (abs,X)"),
@@ -233,6 +233,111 @@ fn disassemble(_path: String) -> io::Result<()> {
                 continue;      
             },
             
+
+            ///////////////////////////////
+            // INDEXED INDIRECT (indr,X)
+            ///////////////////////////////
+            0x01 => {
+                println!("ORA {:#02x} (indr,X)", buffer[opcode_idx+1]);
+                opcode_idx = opcode_idx+2;
+                continue;
+            },
+
+            0x21 => {
+                println!("AND {:#02x} (indr,X)", buffer[opcode_idx+1]);
+                opcode_idx = opcode_idx+2;
+                continue;
+            },
+
+            0x41 => {
+                println!("EOR {:#02x} (indr,X)", buffer[opcode_idx+1]);
+                opcode_idx = opcode_idx+2;
+                continue;
+            },
+
+            0x61 => {
+                println!("ADC {:#02x} (indr,X)", buffer[opcode_idx+1]);
+                opcode_idx = opcode_idx+2;
+                continue;
+            },
+
+            0x81 => {
+                println!("STA {:#02x} (indr,X)", buffer[opcode_idx+1]);
+                opcode_idx = opcode_idx+2;
+                continue;
+            },
+
+            0xA1 => {
+                println!("LDA {:#02x} (indr,X)", buffer[opcode_idx+1]);
+                opcode_idx = opcode_idx+2;
+                continue;
+            },
+
+            0xC1 => {
+                println!("CMP {:#02x} (indr,X)", buffer[opcode_idx+1]);
+                opcode_idx = opcode_idx+2;
+                continue;
+            },
+
+            0xE1 => {
+                println!("SBC {:#02x} (indr,X)", buffer[opcode_idx+1]);
+                opcode_idx = opcode_idx+2;
+                continue;
+            },
+            
+
+            ///////////////////////////////
+            // INDEXED INDIRECT (indr,Y)
+            ///////////////////////////////
+            0x11 => {
+                println!("ORA {:#02x} (indr,Y)", buffer[opcode_idx+1]);
+                opcode_idx = opcode_idx+2;
+                continue;
+            },
+
+            0x31 => {
+                println!("AND {:#02x} (indr,Y)", buffer[opcode_idx+1]);
+                opcode_idx = opcode_idx+2;
+                continue;
+            },
+
+            0x51 => {
+                println!("EOR {:#02x} (indr,Y)", buffer[opcode_idx+1]);
+                opcode_idx = opcode_idx+2;
+                continue;
+            },
+
+            0x71 => {
+                println!("ADC {:#02x} (indr,Y)", buffer[opcode_idx+1]);
+                opcode_idx = opcode_idx+2;
+                continue;
+            },
+
+            0x91 => {
+                println!("STA {:#02x} (indr,Y)", buffer[opcode_idx+1]);
+                opcode_idx = opcode_idx+2;
+                continue;
+            },
+
+            0xB1 => {
+                println!("LDA {:#02x} (indr,Y)", buffer[opcode_idx+1]);
+                opcode_idx = opcode_idx+2;
+                continue;
+            },
+
+            0xD1 => {
+                println!("CMP {:#02x} (indr,Y)", buffer[opcode_idx+1]);
+                opcode_idx = opcode_idx+2;
+                continue;
+            },
+
+            0xF1 => {
+                println!("SBC {:#02x} (indr,Y)", buffer[opcode_idx+1]);
+                opcode_idx = opcode_idx+2;
+                continue;
+            },
+
+
             ///////////////////////////////
             // IMMEDIATE ADDRESSING MODES
             ///////////////////////////////
@@ -661,6 +766,123 @@ fn disassemble(_path: String) -> io::Result<()> {
             },
 
 
+            ////////////////////////////////////////
+            // ZERO-PAGE INDEXED ADDRESSING MODES
+            ////////////////////////////////////////
+            0x15 => {
+                // This addressing mode works just like absolute indexed
+                // but the target addr is limited to the first 0xFF bytes.
+                // Ex: LDA 0xC0,X where X=0x60, then the target addr will
+                // be 0x20 since C0+60=120 but since this is no carry we
+                // drop the most sig hex so we get 0x20 as target address. 
+                println!("ORA {:#02x} (zpg,X)", buffer[opcode_idx+1]);
+                opcode_idx = opcode_idx+2;
+                continue;
+            },
+
+            0x16 => {
+                println!("ASL {:#02x} (zpg,X)", buffer[opcode_idx+1]);
+                opcode_idx = opcode_idx+2;
+                continue;
+            }
+
+            0x35 => {
+                println!("AND {:#02x} (zpg,X)", buffer[opcode_idx+1]);
+                opcode_idx = opcode_idx+2;
+                continue;
+            },
+
+            0x36 => {
+                println!("ROL {:#02x} (zpg,X)", buffer[opcode_idx+1]);
+                opcode_idx = opcode_idx+2;
+                continue;
+            },
+
+            0x55 => {
+                println!("EOR {:#02x} (zpg,X)", buffer[opcode_idx+1]);
+                opcode_idx = opcode_idx+2;
+                continue;
+            },
+
+            0x56 => {
+                println!("LSR {:#02x} (zpg,X)", buffer[opcode_idx+1]);
+                opcode_idx = opcode_idx+2;
+                continue;
+            },
+
+            0x75 => {
+                println!("ADC {:#02x} (zpg,X)", buffer[opcode_idx+1]);
+                opcode_idx = opcode_idx+2;
+                continue;
+            },
+
+            0x76 => {
+                println!("ROR {:#02x} (zpg,X)", buffer[opcode_idx+1]);
+                opcode_idx = opcode_idx+2;
+                continue;
+            },
+
+            0x94 => {
+                println!("STY {:#02x} (zpg,X)", buffer[opcode_idx+1]);
+                opcode_idx = opcode_idx+2;
+                continue;
+            },
+
+            0x95 => {
+                println!("STA {:#02x} (zpg,X)", buffer[opcode_idx+1]);
+                opcode_idx = opcode_idx+2;
+                continue;
+            },
+
+            0x96 => {
+                println!("STX {:#02x} (zpg,Y)", buffer[opcode_idx+1]);
+                opcode_idx = opcode_idx+2;
+                continue;
+            },
+
+            0xB4 => {
+                println!("LDY {:#02x} (zpg,X)", buffer[opcode_idx+1]);
+                opcode_idx = opcode_idx+2;
+                continue;
+            },
+
+            0xB5 => {
+                println!("LDA {:#02x} (zpg,X)", buffer[opcode_idx+1]);
+                opcode_idx = opcode_idx+2;
+                continue;
+            },
+
+            0xB6 => {
+                println!("LDX {:#02x} (zpg,Y)", buffer[opcode_idx+1]);
+                opcode_idx = opcode_idx+2;
+                continue;
+            },
+
+            0xD5 => {
+                println!("CMP {:#02x} (zpg,X)", buffer[opcode_idx+1]);
+                opcode_idx = opcode_idx+2;
+                continue;
+            },
+
+            0xD6 => {
+                println!("DEC {:#02x} (zpg,X)", buffer[opcode_idx+1]);
+                opcode_idx = opcode_idx+2;
+                continue;
+            },
+
+            0xF5 => {
+                println!("SBC {:#02x} (zpg,X)", buffer[opcode_idx+1]);
+                opcode_idx = opcode_idx+2;
+                continue;
+            },
+
+            0xF6 => {
+                println!("INC {:#02x} (zpg,X)", buffer[opcode_idx+1]);
+                opcode_idx = opcode_idx+2;
+                continue;
+            },
+
+
             ///////////////////
             // DEFAULT CASE
             ///////////////////
@@ -670,19 +892,6 @@ fn disassemble(_path: String) -> io::Result<()> {
 
         opcode_idx = opcode_idx + 1;
     }
-
-    // let mut vec_counter = 0;
-    // for mut opcode in 0..(buffer.len()) {  
-    //     println!("{:#02x}", buffer[opcode]);
-
-    //     // First let's do immediate addressing modes.
-    //     // Simply take buffer[opcode+1], then increment i by 1.
-    //     if buffer[opcode] == 0x09 { // ORA immediate
-    //         println!("ORA {:#02x}", buffer[opcode+1]);
-    //         opcode = opcode+2;
-    //     }
-
-    // }
 
     Ok(())
 }
