@@ -3,6 +3,7 @@
 
 // Other modules
 mod flag_ops;
+mod memory;
 
 // Our main struct to hold fields such as registers and whatnot.
 struct CPU {
@@ -24,7 +25,10 @@ struct CPU {
     cycle_count: u16,
 
     // Current opcode
-    opcode: u8
+    opcode: u8,
+
+    // Memory implementation 0->65535
+    memory: memory::Memory
 
 }
 
@@ -42,13 +46,19 @@ impl Default for CPU {
             pc: 0x0u16,
 
             cycle_count: 0,
-            opcode: 0x0u8
+            opcode: 0x0u8,
+            memory: memory::Memory { ..Default::default() }
         }
     }
 }
 
 // Functions for CPU.
 impl CPU {
+
+    fn initialize_CPU(&mut self) {
+        self.memory.initialize_memory();
+        println!("CPU initialized!\n")
+    }
 
     fn dump_registers(&self) {
         println!("Accumulator: {}", self.a);
@@ -66,7 +76,7 @@ impl CPU {
     }
 
     fn load_data(&mut self) {
-        
+
     }
 
     fn process_opcode(&mut self) {
@@ -77,6 +87,8 @@ impl CPU {
 
 fn main() {
     let mut cpu = CPU { ..Default::default() };
+    cpu.initialize_CPU();
+
     cpu.test();
     cpu.dump_registers();
 }
