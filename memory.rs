@@ -1,7 +1,6 @@
 #[allow(dead_code)]
 #[allow(non_snake_case)]
 
-// Our main struct to hold fields such as registers and whatnot.
 struct Memory {
 
     // Memory map ranges from 0x0 -> 0xFFFF.
