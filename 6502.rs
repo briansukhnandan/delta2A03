@@ -65,7 +65,11 @@ impl CPU {
         println!("{:#08b}", self.p);
     }
 
-    fn process_opcode(&self) {
+    fn load_data(&mut self) {
+        
+    }
+
+    fn process_opcode(&mut self) {
         println!("TODO");
     }
 
