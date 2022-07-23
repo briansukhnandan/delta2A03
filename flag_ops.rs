@@ -18,20 +18,20 @@ pub fn read_C_flag(p: u8) -> u8 { (p & 0b0000_0001) }
 
 
 fn main() {
-    // Bit 5 is always set to 1
-    let mut p = 0b0010_0000;
-    p = toggle_N_flag(p);
-    p = toggle_V_flag(p);
-    p = toggle_B_flag(p);
-    p = toggle_D_flag(p);
-    p = toggle_I_flag(p);
-    p = toggle_Z_flag(p);
-    p = toggle_C_flag(p);
+  // Bit 5 is always set to 1
+  let mut p = 0b0010_0000;
+  p = toggle_N_flag(p);
+  p = toggle_V_flag(p);
+  p = toggle_B_flag(p);
+  p = toggle_D_flag(p);
+  p = toggle_I_flag(p);
+  p = toggle_Z_flag(p);
+  p = toggle_C_flag(p);
 
-    println!("{:#08b}", p);
-    println!("{}", read_N_flag(p));
-    p = toggle_N_flag(p);
-    println!("{}", read_N_flag(p));
-    p = toggle_N_flag(p);
-    println!("{}", read_N_flag(p));
+  println!("{:#08b}", p);
+  println!("{}", read_N_flag(p));
+  p = toggle_N_flag(p);
+  println!("{}", read_N_flag(p));
+  p = toggle_N_flag(p);
+  println!("{}", read_N_flag(p));
 }
