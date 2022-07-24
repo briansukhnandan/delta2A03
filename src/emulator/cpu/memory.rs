@@ -57,7 +57,7 @@ impl Memory {
     // If we are in the range 0x0 -> 0x07FF we will mirror
     // 3 times until we reach 0x2000. For each bit of memory set, we
     // will mirror this at the bit 0x800 over.
-    if (address < self.RAM_END_ADDRESS.into()) {
+    if address < self.RAM_END_ADDRESS.into() {
       let mut mirrored_bit = address + 0x0800;
 
       while mirrored_bit < 0x2000 {
@@ -70,24 +70,9 @@ impl Memory {
   }
 
   // Zero's out memory addr 0x0 -> 0x7FF.
-  pub fn clear_RAM(&mut self) {
+  pub fn clear_ram(&mut self) {
     for i in self.RAM_START_ADDRESS..self.RAM_END_ADDRESS {
       self.write_to_memory_address((i as usize).try_into().unwrap(), 0x0);
     }
   }
 }
-
-// fn main() {
-//   let mut memory = Memory { ..Default::default() };
-//   memory.initialize_memory();
-  
-//   // println!("{}", memory.DATA[0x0]);
-//   // println!("{}", memory.read_from_memory_address(0xFFFF));
-//   // memory.write_to_memory_address(0xFFFF, 0x45);
-//   // println!("{}", memory.read_from_memory_address(0xFFFF));
-
-//   memory.write_to_memory_address(0x07FF, 0x45);
-//   println!("{}", memory.read_from_memory_address(0x07FF));
-//   memory.clear_RAM();
-//   println!("{}", memory.read_from_memory_address(0x07FF));
-// }

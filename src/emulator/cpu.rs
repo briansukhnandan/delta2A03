@@ -1,6 +1,12 @@
 #[allow(dead_code)]
 #[allow(non_snake_case)]
 
+use std::io;
+use std::io::Read;
+use std::io::BufReader;
+use std::fs::File;
+use std::io::Write;
+
 // Other modules
 mod memory;
 
@@ -53,9 +59,8 @@ impl Default for CPU {
 // Functions for CPU.
 impl CPU {
   // Initialize memory and stack ptr.
-  pub fn initialize_CPU(&mut self) {
+  pub fn initialize_cpu(&mut self) {
     self.memory.initialize_memory();
-
     println!("CPU initialized!\n")
   }
 
@@ -67,13 +72,49 @@ impl CPU {
     println!("Status register: {:#08b}", self.p);
   }
 
-  pub fn load_data(&mut self) {
+  // According to https://www.nesdev.org/NinTech.txt PRG RAM
+  // starts at 0x8000 and ends at 0xFFFF.
+  pub fn load_rom_data(&mut self, _path: String) -> io::Result<()> {
+    let f = File::open(&_path);
+    // let mut reader = BufReader::new(f);
+    // let mut buffer = Vec::new();
+    // reader.read_to_end(&mut buffer);
+
+    // let mut opcode_idx = 0;
+    // while opcode_idx < buffer.len() {
+    //   self.memory.write_to_memory_address(0x8000+opcode_idx, buffer[opcode_idx]);
+    //   opcode_idx = opcode_idx + 1;
+    // }
+    match File::open(_path) {
+      Ok(f) => {
+        let mut reader = BufReader::new(f);
+        let mut buffer = Vec::new();
+        reader.read_to_end(&mut buffer);
+    
+        let mut opcode_idx = 0;
+        while opcode_idx < buffer.len() {
+          self.memory.write_to_memory_address(0x8000+opcode_idx, buffer[opcode_idx]);
+          opcode_idx = opcode_idx + 1;
+        }
+
+        Ok(())
+      }
+      Err(err) => Err(err),
+    }
 
   }
 
-  pub fn process_opcode(&mut self) {
-    println!("TODO");
-  }
+  ////////////////////////////////////////
+  //  Register Getter/Setter Functions  //
+  ////////////////////////////////////////
+  /* Note - Status register updates are handled in the next section. */
+  pub fn get_a_register(&self) -> u8 { self.a }
+  pub fn get_x_register(&self) -> u8 { self.x }
+  pub fn get_y_register(&self) -> u8 { self.y }
+
+  pub fn set_a_register(&mut self, value: u8) { self.a = value; }
+  pub fn set_x_register(&mut self, value: u8) { self.x = value; }
+  pub fn set_y_register(&mut self, value: u8) { self.y = value; }
 
   ////////////////////////////////////////
   //  Status Register Helper Functions  //
@@ -92,13 +133,15 @@ impl CPU {
   pub fn read_d_flag(&self) -> u8 { (self.p & 0b0000_1000) >> 3 }
   pub fn read_i_flag(&self) -> u8 { (self.p & 0b0000_0100) >> 2 }
   pub fn read_z_flag(&self) -> u8 { (self.p & 0b0000_0010) >> 1 }
-  pub fn read_c_flag(&self) -> u8 { (self.p & 0b0000_0001) }
+  pub fn read_c_flag(&self) -> u8 { self.p & 0b0000_0001 }
+
+  ///////////////////////////////////
+  //  Opcode processing Functions  //
+  ///////////////////////////////////
+
+  // TODO
+  pub fn process_opcode(&mut self) {
+    println!("TODO");
+  }
+
 }
-
-// fn main() {
-//   let mut cpu = CPU { ..Default::default() };
-//   cpu.initialize_CPU();
-
-//   cpu.test();
-//   cpu.dump_registers();
-// }

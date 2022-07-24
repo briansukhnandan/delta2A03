@@ -1,20 +1,20 @@
+use std::env;
+
 mod emulator;
 mod unit_tests;
 
 fn main() {
+  let args: Vec<String> = env::args().collect();
+  let mode = &args[1];
 
-  let test_mode = true;
-
-  if test_mode {
-    unit_tests::test_cpu::test_module();
-    // unit_tests::test_memory::test_module();
+  if mode == "tests" {
+    unit_tests::test_cpu::test_component();
+    unit_tests::test_memory::test_component();
   }
 
-  println!("Hello, world!");
-
-  let mut cpu = emulator::cpu::CPU { ..Default::default() };
-  cpu.initialize_CPU();
-
-  // cpu.test();
-  cpu.dump_registers();
+  else if mode == "emulator" {
+    let mut cpu = emulator::cpu::CPU { ..Default::default() };
+    cpu.initialize_cpu();
+    // cpu.load_rom_data("/Users/brian/Documents/Git_Repositories/delta6502/test_rom/6502_functional_test.bin".to_string());
+  }
 }
