@@ -1,0 +1,8 @@
+test_rom/*
+disassembler/disassembler
+debug/ROM_dump_tool
+debug/opcode_table.png
+debug/canvas
+debug/mem_dump.txt
+canvas
+target/*
