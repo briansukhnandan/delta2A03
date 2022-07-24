@@ -8,7 +8,8 @@ use std::fs::File;
 use std::io::Write;
 
 // Other modules
-mod memory;
+mod memory; // RAM model
+mod mappings; // Mappings for our ROM, PPU, etc.
 
 // Our main struct to hold fields such as registers and whatnot.
 pub struct CPU {
@@ -33,7 +34,13 @@ pub struct CPU {
   pub cycle_count: u16,
 
   // Current opcode
-  pub opcode: u8
+  pub opcode: u8,
+
+  // Current ROM specified
+  pub rom_path: String,
+
+  // ROM format.
+  pub rom_format: mappings::Rom_Format
 }
 
 // Default values for our 6502 if we are initializing anywhere else.
@@ -52,6 +59,8 @@ impl Default for CPU {
 
       cycle_count: 0,
       opcode: 0x0u8,
+      rom_path: String::from(""),
+      rom_format: mappings::Rom_Format::INES2_0
     }
   }
 }
@@ -72,29 +81,38 @@ impl CPU {
     println!("Status register: {:#08b}", self.p);
   }
 
-  // According to https://www.nesdev.org/NinTech.txt PRG RAM
-  // starts at 0x8000 and ends at 0xFFFF.
-  pub fn load_rom_data(&mut self, _path: String) -> io::Result<()> {
+  // Very nice page describing header modes and general ROM-parsing: 
+  // https://bheisler.github.io/post/nes-rom-parser-with-nom/
+  pub fn load_rom_data(&mut self, _path: &String) -> io::Result<()> {
     let f = File::open(&_path);
-    // let mut reader = BufReader::new(f);
-    // let mut buffer = Vec::new();
-    // reader.read_to_end(&mut buffer);
 
-    // let mut opcode_idx = 0;
-    // while opcode_idx < buffer.len() {
-    //   self.memory.write_to_memory_address(0x8000+opcode_idx, buffer[opcode_idx]);
-    //   opcode_idx = opcode_idx + 1;
-    // }
     match File::open(_path) {
       Ok(f) => {
+        self.rom_path = String::from(_path);
         let mut reader = BufReader::new(f);
         let mut buffer = Vec::new();
         reader.read_to_end(&mut buffer);
-    
-        let mut opcode_idx = 0;
-        while opcode_idx < buffer.len() {
-          self.memory.write_to_memory_address(0x8000+opcode_idx, buffer[opcode_idx]);
-          opcode_idx = opcode_idx + 1;
+
+        // Parse ROM headers.
+        // The first 4 bytes of headers are the ASCII representation of 'N', 'E', 'S', followed by 0x1A.
+        // If this condition fails the ROM headers are invalid.
+        let rom_headers = &buffer[0..16];
+        assert!(rom_headers[0..4] == [0x4e, 0x45, 0x53, 0x1a], "ROM headers are invalid");
+
+        println!("{:?}", rom_headers);
+        println!("{}", self.rom_path);
+
+        let prg_rom = rom_headers[4];
+        let chr_rom = rom_headers[5];
+        let byte6 = rom_headers[6];
+        let byte7 = rom_headers[7];
+
+        // NES 2.0 mode is set if the 2nd bit is 0, and 3rd bit is set.
+        if byte7 & 0b0000_1100 == 0b0000_1000 {
+          self.configure_iNES2_0_mapping();
+        }
+        else {
+          self.configure_iNES_mapping();
         }
 
         Ok(())
@@ -102,6 +120,20 @@ impl CPU {
       Err(err) => Err(err),
     }
 
+  }
+
+  //////////////////////////
+  //  ROM Memory Mapping  //
+  //////////////////////////
+  /* ROMs have two common formats: iNES and NES 2.0 */
+  pub fn configure_iNES2_0_mapping(&mut self) {
+    self.rom_format = mappings::Rom_Format::INES2_0;
+    println!("iNES2.0 {}", self.rom_format);
+  }
+
+  pub fn configure_iNES_mapping(&mut self) {
+    self.rom_format = mappings::Rom_Format::INES;
+    println!("iNES {}", self.rom_format);
   }
 
   ////////////////////////////////////////
