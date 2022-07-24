@@ -99,20 +99,21 @@ impl CPU {
         let rom_headers = &buffer[0..16];
         assert!(rom_headers[0..4] == [0x4e, 0x45, 0x53, 0x1a], "ROM headers are invalid");
 
-        println!("{:?}", rom_headers);
-        println!("{}", self.rom_path);
+        // println!("{:?}", rom_headers);
+        // println!("{}", self.rom_path);
 
-        let prg_rom = rom_headers[4];
-        let chr_rom = rom_headers[5];
-        let byte6 = rom_headers[6];
+        // let prg_rom = rom_headers[4];
+        // let chr_rom = rom_headers[5];
+        // let byte6 = rom_headers[6];
         let byte7 = rom_headers[7];
 
         // NES 2.0 mode is set if the 2nd bit is 0, and 3rd bit is set.
+        // https://www.nesdev.org/wiki/NES_2.0#Identification
         if byte7 & 0b0000_1100 == 0b0000_1000 {
-          self.configure_iNES2_0_mapping();
+          self.configure_iNES2_0_mapping(rom_headers);
         }
         else {
-          self.configure_iNES_mapping();
+          self.configure_iNES_mapping(rom_headers);
         }
 
         Ok(())
@@ -122,18 +123,26 @@ impl CPU {
 
   }
 
-  //////////////////////////
-  //  ROM Memory Mapping  //
-  //////////////////////////
+  ///////////////////
+  //  ROM Parsing  //
+  ///////////////////
   /* ROMs have two common formats: iNES and NES 2.0 */
-  pub fn configure_iNES2_0_mapping(&mut self) {
+  pub fn configure_iNES2_0_mapping(&mut self, rom_headers: &[u8]) {
     self.rom_format = mappings::Rom_Format::INES2_0;
-    println!("iNES2.0 {}", self.rom_format);
+    println!("{}", self.rom_format);
+
+    let prg_rom = rom_headers[4];
+    let chr_rom = rom_headers[5];
+    let byte6 = rom_headers[6];
+
+    println!("{:?}", rom_headers);
   }
 
-  pub fn configure_iNES_mapping(&mut self) {
+  pub fn configure_iNES_mapping(&mut self, rom_headers: &[u8]) {
     self.rom_format = mappings::Rom_Format::INES;
-    println!("iNES {}", self.rom_format);
+    println!("{}", self.rom_format);
+
+    println!("{:?}", rom_headers);
   }
 
   ////////////////////////////////////////
