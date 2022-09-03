@@ -20,13 +20,13 @@ impl std::fmt::Display for Rom_Format {
 //  Mapping modes  //
 /////////////////////
 pub enum Rom_Mapper {
-  NROM,
-  MMC1,
-  UXROM,
-  CNROM,
-  MMC3,
-  AXROM,
-  MMC2,
+  NROM = 0,
+  MMC1 = 1,
+  UXROM = 2,
+  CNROM = 3,
+  MMC3 = 4,
+  AXROM = 7,
+  MMC2 = 9
 }
 
 // Optional fmt implementation for printing.

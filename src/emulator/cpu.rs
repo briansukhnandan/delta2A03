@@ -40,7 +40,10 @@ pub struct CPU {
   pub rom_path: String,
 
   // ROM format.
-  pub rom_format: mappings::Rom_Format
+  pub rom_format: mappings::Rom_Format,
+
+  // ROM mapper technique.
+  pub rom_mapper: mappings::Rom_Mapper
 }
 
 // Default values for our 6502 if we are initializing anywhere else.
@@ -60,7 +63,8 @@ impl Default for CPU {
       cycle_count: 0,
       opcode: 0x0u8,
       rom_path: String::from(""),
-      rom_format: mappings::Rom_Format::INES2_0
+      rom_format: mappings::Rom_Format::INES2_0,
+      rom_mapper: mappings::Rom_Mapper::NROM
     }
   }
 }
@@ -134,15 +138,20 @@ impl CPU {
     let prg_rom = rom_headers[4];
     let chr_rom = rom_headers[5];
     let byte6 = rom_headers[6];
+    let byte7 = rom_headers[7];
+    let byte8 = rom_headers[8];
 
-    println!("{:?}", rom_headers);
+    self.rom_mapper = ((byte6 & 0b1111_0000) >> 4) | (byte7 & 0b1111_0000) | ((byte8 & 0b1111_0000) << 4);
   }
 
   pub fn configure_iNES_mapping(&mut self, rom_headers: &[u8]) {
     self.rom_format = mappings::Rom_Format::INES;
     println!("{}", self.rom_format);
 
-    println!("{:?}", rom_headers);
+    let byte6 = rom_headers[6];
+    let byte7 = rom_headers[7];
+    let prg_ram_size = rom_headers[8];
+    self.rom_mapper = ((byte6 & 0b1111_0000) >> 4) | (byte7 & 0b1111_0000)
   }
 
   ////////////////////////////////////////
