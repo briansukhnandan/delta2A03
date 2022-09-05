@@ -1,5 +1,6 @@
-#[allow(dead_code)]
-#[allow(non_snake_case)]
+#![allow(dead_code)]
+#![allow(non_snake_case)]
+#![allow(non_camel_case_case)]
 
 use std::io;
 use std::io::Read;
@@ -43,7 +44,11 @@ pub struct CPU {
   pub rom_format: mappings::Rom_Format,
 
   // ROM mapper technique.
-  pub rom_mapper: mappings::Rom_Mapper
+  // Internally we'd want to store this as a u8 and then
+  // perform matching to determine what mapping we are using
+  // since this requires some bit arithmetic to determine what type.
+  // Ex: if (self.rom_mapper == Rom_Mapper.NROM as u8)
+  pub rom_mapper: u8
 }
 
 // Default values for our 6502 if we are initializing anywhere else.
@@ -64,7 +69,7 @@ impl Default for CPU {
       opcode: 0x0u8,
       rom_path: String::from(""),
       rom_format: mappings::Rom_Format::INES2_0,
-      rom_mapper: mappings::Rom_Mapper::NROM
+      rom_mapper: mappings::Rom_Mapper::NROM as u8
     }
   }
 }
@@ -103,21 +108,29 @@ impl CPU {
         let rom_headers = &buffer[0..16];
         assert!(rom_headers[0..4] == [0x4e, 0x45, 0x53, 0x1a], "ROM headers are invalid");
 
-        // println!("{:?}", rom_headers);
+        println!("{:?}", rom_headers);
         // println!("{}", self.rom_path);
 
         // let prg_rom = rom_headers[4];
         // let chr_rom = rom_headers[5];
         // let byte6 = rom_headers[6];
         let byte7 = rom_headers[7];
+        // let byte8 = rom_headers[8];
+        // let prg_ram_size = rom_headers[8];
+        println!("{}", byte7);
 
-        // NES 2.0 mode is set if the 2nd bit is 0, and 3rd bit is set.
+        // NES 2.0 mode is set if the 2nd bit of byte7 is 0, and 3rd bit is set.
         // https://www.nesdev.org/wiki/NES_2.0#Identification
         if byte7 & 0b0000_1100 == 0b0000_1000 {
-          self.configure_iNES2_0_mapping(rom_headers);
+          self.configure_iNES2_0_format(rom_headers);
         }
         else {
-          self.configure_iNES_mapping(rom_headers);
+          self.configure_iNES_format(rom_headers);
+        }
+
+        // Configure NROM mappings now if the ROM matches this configuration.
+        if (self.rom_mapper == mappings::Rom_Mapper::NROM as u8) {
+          self.configure_NROM_mapping(rom_headers);
         }
 
         Ok(())
@@ -130,34 +143,51 @@ impl CPU {
   ///////////////////
   //  ROM Parsing  //
   ///////////////////
-  /* ROMs have two common formats: iNES and NES 2.0 */
-  pub fn configure_iNES2_0_mapping(&mut self, rom_headers: &[u8]) {
+  /* 
+    ROMs have two common formats: iNES and NES 2.0.
+    We will only be supporting iNES for now.
+   */
+  pub fn configure_iNES2_0_format(&mut self, rom_headers: &[u8]) {
     self.rom_format = mappings::Rom_Format::INES2_0;
-    println!("{}", self.rom_format);
+    println!("ROM mapping set to: {}", self.rom_format);
 
-    let prg_rom = rom_headers[4];
-    let chr_rom = rom_headers[5];
     let byte6 = rom_headers[6];
     let byte7 = rom_headers[7];
     let byte8 = rom_headers[8];
-
     self.rom_mapper = ((byte6 & 0b1111_0000) >> 4) | (byte7 & 0b1111_0000) | ((byte8 & 0b1111_0000) << 4);
   }
 
-  pub fn configure_iNES_mapping(&mut self, rom_headers: &[u8]) {
+  pub fn configure_iNES_format(&mut self, rom_headers: &[u8]) {
     self.rom_format = mappings::Rom_Format::INES;
-    println!("{}", self.rom_format);
+    println!("ROM mapping set to: {}", self.rom_format);
 
     let byte6 = rom_headers[6];
     let byte7 = rom_headers[7];
+
+    // Rom mapper is calculated as:
+    // 8 bits = {bits 4-7 of byte7}{bits 4-7 shifted as bits 0-3}
+    self.rom_mapper = ((byte6 & 0b1111_0000) >> 4) | (byte7 & 0b1111_0000);
+  }
+
+  ///////////////////////////////
+  //  ROM Mapping Function(s)  //
+  ///////////////////////////////
+  pub fn configure_NROM_mapping(&mut self, rom_headers: &[u8]) {
+    println!("Detected NROM mapping...");
+
+    // Firstly, we need to see if the ROM has a trainer.
+    // Bit 2 of byte6 being set determines this.
+    // Information on trainers: https://forums.nesdev.org/viewtopic.php?t=3657
+    let trainer_present = (rom_headers[6] >> 2) & 1;
+    println!("Trainer Present: {}", trainer_present);
+
     let prg_ram_size = rom_headers[8];
-    self.rom_mapper = ((byte6 & 0b1111_0000) >> 4) | (byte7 & 0b1111_0000)
   }
 
   ////////////////////////////////////////
   //  Register Getter/Setter Functions  //
   ////////////////////////////////////////
-  /* Note - Status register updates are handled in the next section. */
+  /* Note - Status register updates are handled in the below section. */
   pub fn get_a_register(&self) -> u8 { self.a }
   pub fn get_x_register(&self) -> u8 { self.x }
   pub fn get_y_register(&self) -> u8 { self.y }

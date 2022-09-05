@@ -16,9 +16,10 @@ impl std::fmt::Display for Rom_Format {
   }
 }
 
-/////////////////////
-//  Mapping modes  //
-/////////////////////
+//////////////////////////////
+//  Mapping modes for iNES  //
+//////////////////////////////
+/* https://www.nesdev.org/wiki/INES */
 pub enum Rom_Mapper {
   NROM = 0,
   MMC1 = 1,

@@ -15,7 +15,6 @@ fn main() {
   else if mode == "emulator" {
     let mut cpu = emulator::cpu::CPU { ..Default::default() };
     cpu.initialize_cpu();
-    cpu.load_rom_data(&"/Users/brian/Documents/NES Test ROMs/instr_test_v5/01-basics.nes".to_string());
-    // println!("Testing if program terminates here");
+    cpu.load_rom_data(&"/home/prophet/Git/delta6502/test_rom/01-basics.nes".to_string());
   }
 }
